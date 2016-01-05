@@ -2,7 +2,7 @@ var multer = require("multer");
 var fs = require("fs");
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, 'uploads/')
+		cb(null,  process.cwd() +  '/uploads')
 	},
 	filename: function (req, file, cb) {
 		cb(null, file.originalname)
@@ -23,16 +23,20 @@ module.exports = function  (app) {
 		// 	else
 		// 		console.log("File: ", req.file.path, "has been deleted");
 		// })
-	})
+})
 
-	// app.use(function errHandling (err,req,res,next) {
-	// 	if (err) {
-	// 		if (err.code=='LIMIT_FILE_SIZE'){
-	// 			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
-	// 		}
-	// 		else
-	// 			res.end(String(err));
-	// 	}
-	// })
+	app.use(function errHandling (err,req,res,next) {
+		if (err) {
+			if (err.code=='LIMIT_FILE_SIZE'){
+				res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
+			}
+			else
+			{
+				if (res.headersSent) {
+					return next(err);
+				}
+			}
+		}
+	})
 }
 
