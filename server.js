@@ -5,11 +5,7 @@ var app = express();
 app.use(express.static(process.cwd() + '/public'));
 app.use(express.static(process.cwd() + 'uploads'));
 
-
-
 routes(app);
-
-
 
 var port = process.env.PORT || 3000;
 app.listen(port, function  () {

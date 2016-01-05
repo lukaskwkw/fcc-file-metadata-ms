@@ -18,7 +18,7 @@ module.exports = function  (app) {
 	app.post('/fileanalyse', upload.single('the-file'), function  (req,res, next) {
 		res.json(req.file);
 
-		// Althougt Heroku delete files anyway after uploading i leave it for localhost or others online hosts whose don't delete files.
+		// Althougt Heroku delete files anyway after uploading i leave it for localhost or for others online hosts whose don't delete files.
 		fs.unlink(req.file.path, function(err){
 			if (err)
 				throw err;
@@ -27,12 +27,12 @@ module.exports = function  (app) {
 		})
 })
 
-	app.use(function fileTooLargeErr (err,req,res,next) {
+	app.use(function fileTooLargeErrHandler (err,req,res,next) {
 		if (err.code!=='LIMIT_FILE_SIZE')
 			return next(err);
 		else
 		{
-			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
+			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is too big. Choose file with size under 1 MB');
 		}
 
 	});

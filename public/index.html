@@ -35,25 +35,19 @@
 
 					var files;
 
-
 					$('input[type=file]').on('change', function() {
 						files = event.target.files;
-						console.log(files['0'].size);
-
 					});
 					var bar = $('.bar');
 					var percent = $('.percent');
 					var form = $('form');
 
-					var u  = window.location.origin + '/fileanalyse';
-					console.log(u);
 					$(form).submit(function(event) {
 						/* Act on the event */
 						event.stopPropagation();
 						event.preventDefault();
 						if (files)
-							if (true)
-							// if (files['0'].size<1048576)
+							if (files['0'].size<1048576)
 								$(this).ajaxSubmit({
 									cache: false,
 									processData: false,
@@ -84,7 +78,7 @@
 									}
 								});
 							else {
-								alert("File is to big. Choose file with size under 1 MB")
+								alert("File is too big. Choose file with size under 1 MB")
 							}
 							else {
 								alert("File Input is empty. Choose File")
