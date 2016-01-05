@@ -25,14 +25,14 @@ module.exports = function  (app) {
 		// })
 	})
 
-	app.use(function errHandling (err,req,res,next) {
-		if (err) {
-			if (err.code=='LIMIT_FILE_SIZE'){
-				res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
-			}
-			else
-				res.end(String(err));
-		}
-	})
+	// app.use(function errHandling (err,req,res,next) {
+	// 	if (err) {
+	// 		if (err.code=='LIMIT_FILE_SIZE'){
+	// 			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
+	// 		}
+	// 		else
+	// 			res.end(String(err));
+	// 	}
+	// })
 }
 
