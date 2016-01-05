@@ -79,6 +79,7 @@
 									success: function(data) {
 										$(form).resetForm();
 										files = undefined;
+										console.log(JSON.stringify(data));
 										alert("File size: " + data.size);
 									}
 								});
