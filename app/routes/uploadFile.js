@@ -14,6 +14,7 @@ var upload = multer({ storage: storage , limits : { fileSize : 1048576, files : 
 
 module.exports = function  (app) {
 	app.post('/fileanalyse', upload.single('the-file'), function  (req,res, next) {
+		console.log(JSON.stringifgy(req.file));
 		res.json(req.file);
 
 		// fs.unlink(req.file.path, function(err){
