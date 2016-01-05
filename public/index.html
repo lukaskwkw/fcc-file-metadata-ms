@@ -52,7 +52,8 @@
 						event.stopPropagation();
 						event.preventDefault();
 						if (files)
-							if (files['0'].size<1048576)
+							if (true)
+							// if (files['0'].size<1048576)
 								$(this).ajaxSubmit({
 									cache: false,
 									processData: false,
@@ -79,7 +80,6 @@
 									success: function(data) {
 										$(form).resetForm();
 										files = undefined;
-										console.log(JSON.stringify(data));
 										alert("File size: " + data.size);
 									}
 								});

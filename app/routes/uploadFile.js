@@ -4,7 +4,7 @@ var fs = require("fs");
 
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null,  process.cwd() + '/uploads/')
+		cb(null,  process.cwd() + '/uploady/')
 	},
 	filename: function (req, file, cb) {
 		cb(null, file.originalname)
@@ -16,7 +16,6 @@ var upload = multer({ storage: storage , limits : { fileSize : 1048576, files : 
 
 module.exports = function  (app) {
 	app.post('/fileanalyse', upload.single('the-file'), function  (req,res, next) {
-		console.log(JSON.stringify(req.file));
 		res.json(req.file);
 
 		// fs.unlink(req.file.path, function(err){
@@ -27,20 +26,14 @@ module.exports = function  (app) {
 		// })
 })
 
-	// app.use(function errHandling (err,req,res,next) {
-	// 	if (res.headersSent) {
-	// 		return next(err);
-	// 	}
+	app.use(function errHandling (err,req,res,next) {
+		if (err.code!=='LIMIT_FILE_SIZE')
+			return next(err);
+		else
+		{
+			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
+		}
 
-	// 	if (err) {
-	// 		if (err.code=='LIMIT_FILE_SIZE'){
-	// 			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
-	// 		}
-	// 		else
-	// 		{
-
-	// 		}
-	// 	}
-	// })
+	});
 }
 
