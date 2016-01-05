@@ -3,6 +3,7 @@ var routes = require('./app/routes/uploadFile.js');
 var app = express();
 
 app.use(express.static(process.cwd() + '/public'));
+app.use(express.static(process.cwd() + '/uploads'));
 
 routes(app);
 
