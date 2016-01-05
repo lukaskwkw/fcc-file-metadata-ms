@@ -26,14 +26,6 @@ module.exports = function  (app) {
 		// })
 })
 
-	app.use(function errHandling (err,req,res,next) {
-		if (err.code!=='LIMIT_FILE_SIZE')
-			return next(err);
-		else
-		{
-			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
-		}
 
-	});
 }
 
