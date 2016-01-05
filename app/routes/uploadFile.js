@@ -16,12 +16,12 @@ module.exports = function  (app) {
 	app.post('/fileanalyse', upload.single('the-file'), function  (req,res, next) {
 		res.json(req.file);
 
-		fs.unlink(req.file.path, function(err){
-			if (err)
-				throw err;
-			else
-				console.log("File: ", req.file.path, "has been deleted");
-		})
+		// fs.unlink(req.file.path, function(err){
+		// 	if (err)
+		// 		throw err;
+		// 	else
+		// 		console.log("File: ", req.file.path, "has been deleted");
+		// })
 	})
 
 	app.use(function errHandling (err,req,res,next) {
