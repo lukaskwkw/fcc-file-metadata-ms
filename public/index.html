@@ -16,76 +16,78 @@
 </style>
 <body>
 	<p>
-		This is a very simple test harness which posts to 
-		<a href="https://cryptic-ridge-9197.herokuapp.com//api/fileanalyse">
-			https://cryptic-ridge-9197.herokuapp.com//api/fileanalyse</a>
-			Take a look at look at <i>View page source</i> to see how it works.
-		</p>
-		<form id="file-form" enctype="multipart/form-data" method="post" action="/fileanalyse">
-			<input type="file" name="the-file" />
-			<input type="submit" value="Upload" />
-		</form>
+		This is a very simple test harness which posts to /fileanalyse
+	</p>
+	<form id="file-form" enctype="multipart/form-data" method="post" action="/fileanalyse">
+		<input type="file" name="the-file" />
+		<input type="submit" value="Upload" />
+	</form>
 
-		<div class="progress">
-			<div class="bar"></div >
-				<div class="percent">0%</div >
-				</div>
+	<div class="progress">
+		<div class="bar"></div >
+			<div class="percent">0%</div >
+			</div>
 
-				<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-				<script type="text/javascript" src="http://malsup.github.io/min/jquery.form.min.js"></script>
-				<script type="text/javascript">
-					$(document).ready(function() {
+			<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+			<script type="text/javascript" src="http://malsup.github.io/min/jquery.form.min.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function() {
 
-						var files;
-						
+					var files;
+					
 
-						$('input[type=file]').on('change', function() {
-							files = event.target.files;
-							console.log(files['0'].size);
+					$('input[type=file]').on('change', function() {
+						files = event.target.files;
+						console.log(files['0'].size);
 
-						});
-						var bar = $('.bar');
-						var percent = $('.percent');
+					});
+					var bar = $('.bar');
+					var percent = $('.percent');
+					var form = $('form');
 
-						var u  = window.location.origin + '/fileanalyse';
-						console.log(u);
-						$('form').submit(function(event) {
-							/* Act on the event */
-							event.stopPropagation();
-							event.preventDefault();
-							if (true/*files['0'].size<1048576*/)
-							$(this).ajaxSubmit({
-								cache: false,
-								processData: false,
-								contentType: false,
-								beforeSend: function() {
-									var data = new FormData();
-									$.each(files, function(key, value) {
-										console.log(key, ' : ' , value );
-										data.append(key, value);
-									});
-									console.log(JSON.stringify(data));
-									var percentVal = '0%';
-									bar.width(percentVal);
-									percent.html(percentVal);
+					var u  = window.location.origin + '/fileanalyse';
+					console.log(u);
+					$(form).submit(function(event) {
+						/* Act on the event */
+						event.stopPropagation();
+						event.preventDefault();
+						if (files)
+							if (files['0'].size<1048576)
+								$(this).ajaxSubmit({
+									cache: false,
+									processData: false,
+									contentType: false,
+									beforeSend: function() {
+										var percentVal = '0%';
+										bar.css({'background-color' : 'green'});
+										bar.width(percentVal);
+										percent.html(percentVal);
 
-								},
-								uploadProgress: function(event, position, total, percentComplete) {
-									var percentVal = percentComplete + '%';
-									bar.width(percentVal);
-									percent.html(percentVal);
-								},
-								error: function(jqXHR, textStatus, errorThrown) {
-									alert('ERRORS: ' + textStatus);
-								},
-								success: function(data) {
-									alert(data);
-								}
-							});
-						else {
-							alert("File is to big. Choose file with size under 1 MB")
-						}
-							return false; //in order to prevent normal form submiting
+									},
+									uploadProgress: function(event, position, total, percentComplete) {
+										var percentVal = percentComplete + '%';
+										bar.width(percentVal);
+										percent.html(percentVal);
+									},
+									error: function(xhr, textStatus, errorThrown) {
+										$(form).resetForm();
+										bar.css({'background-color' : '#A00000'});
+										percent.html('0%');
+										files = undefined;
+										alert('ERRORS: ' + String(xhr.responseText));
+									},
+									success: function(data) {
+										$(form).resetForm();
+										files = undefined;
+										alert("File size: " + data.size);
+									}
+								});
+							else {
+								alert("File is to big. Choose file with size under 1 MB")
+							}
+							else {
+								alert("File Input is empty. Choose File")
+							}
 
 						});
 });

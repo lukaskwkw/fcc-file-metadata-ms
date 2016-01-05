@@ -4,7 +4,6 @@ var app = express();
 
 app.use(express.static(process.cwd() + '/public'));
 
-
 routes(app);
 
 var port = process.env.PORT || 3000;
