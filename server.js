@@ -9,15 +9,7 @@ app.use(express.static(process.cwd() + 'uploads'));
 
 routes(app);
 
-	// app.use(function fileTooLargeErr (err,req,res,next) {
-	// 	if (err.code!=='LIMIT_FILE_SIZE')
-	// 		return next(err);
-	// 	else
-	// 	{
-	// 		res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
-	// 	}
 
-	// });
 
 var port = process.env.PORT || 3000;
 app.listen(port, function  () {

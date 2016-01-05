@@ -18,14 +18,24 @@ module.exports = function  (app) {
 	app.post('/fileanalyse', upload.single('the-file'), function  (req,res, next) {
 		res.json(req.file);
 
-		// fs.unlink(req.file.path, function(err){
-		// 	if (err)
-		// 		throw err;
-		// 	else
-		// 		console.log("File: ", req.file.path, "has been deleted");
-		// })
+		// Althougt Heroku delete files anyway after uploading i leave it for localhost or others online hosts whose don't delete files.
+		fs.unlink(req.file.path, function(err){
+			if (err)
+				throw err;
+			else
+				console.log("File: ", req.file.path, "has been deleted");
+		})
 })
 
+	app.use(function fileTooLargeErr (err,req,res,next) {
+		if (err.code!=='LIMIT_FILE_SIZE')
+			return next(err);
+		else
+		{
+			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
+		}
+
+	});
 
 }
 
