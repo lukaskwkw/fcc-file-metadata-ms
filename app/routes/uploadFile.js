@@ -2,7 +2,7 @@ var multer = require("multer");
 var fs = require("fs");
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null,  process.cwd() +  '/uploads')
+		cb(null,  './uploads')
 	},
 	filename: function (req, file, cb) {
 		cb(null, file.originalname)
@@ -29,7 +29,7 @@ module.exports = function  (app) {
 	// 	if (res.headersSent) {
 	// 		return next(err);
 	// 	}
-		
+
 	// 	if (err) {
 	// 		if (err.code=='LIMIT_FILE_SIZE'){
 	// 			res.status(500).send("LIMIT_FILE_SIZE: " + 'File is to big. Choose file with size under 1 MB');
